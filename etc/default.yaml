@@ -1,0 +1,11 @@
+mmp5_port:              "/dev/ttyUSB0"
+
+mmp5_maxForwardSpeed:   0.5
+
+mmp5_maxBackwardSpeed:  0.5
+
+mmp5_maxTurnSpeed:      0.5
+
+mmp5_forwardSpeedGain:  10.0
+
+mmp5_turnSpeedGain:     10.0

@@ -1,0 +1,7 @@
+<launch>
+
+    <node name="mmp5_ros_driver" pkg="mmp5_ros_driver" type="mmp5_ros_driver" output="screen" >
+      <rosparam file="$(find mmp5_ros_driver)/etc/default.yaml" />
+    </node>
+
+</launch>
