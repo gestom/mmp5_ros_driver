@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 	n.param("mmp5_turnSpeedGain",turnSpeedGain,10.0);
 	robot = new CRobot(robotPort.c_str(),maxForwardSpeed,maxBackwardSpeed,maxTurnSpeed,forwardSpeedGain,turnSpeedGain);
 	//cmd_vel = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
-	commandSub = n.subscribe("/cmd_vel", 100, commandCallback);
+	commandSub = n.subscribe("/cmd_vel", 1, commandCallback);
 	//robot_pose = n.subscribe("/robot_pose", 1000, poseCallback);
 	ros::spin();
 }
