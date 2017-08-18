@@ -1,10 +1,13 @@
 #include <ros/ros.h>
 #include <tf/tf.h>
 #include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
 #include "CRobot.h"
 #include <string.h>
 
 ros::Subscriber commandSub;
+ros::Publisher odometryPub;
+nav_msgs::Odometry odometry;
 
 //robot Parameters
 std::string robotPort;
@@ -33,6 +36,27 @@ int main(int argc, char** argv)
 	robot = new CRobot(robotPort.c_str(),maxForwardSpeed,maxBackwardSpeed,maxTurnSpeed,forwardSpeedGain,turnSpeedGain);
 	//cmd_vel = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
 	commandSub = n.subscribe("/cmd_vel", 1, commandCallback);
+	odometryPub = n.advertise<nav_msgs::Odometry>("/odom", 1);
 	//robot_pose = n.subscribe("/robot_pose", 1000, poseCallback);
-	ros::spin();
+
+	SPosition odo;
+	robot->resetOdometer();
+
+	while (ros::ok())
+	{
+		odo = robot->getOdometry();
+		odometry.pose.pose.position.x = odo.x;
+		odometry.pose.pose.position.y = odo.y;
+		odometry.pose.pose.position.z = 0;
+		tf::Quaternion orientation;
+		orientation.setRPY(0,0,odo.phi);
+		odometry.pose.pose.orientation.x = orientation[0];
+		odometry.pose.pose.orientation.y = orientation[1];
+		odometry.pose.pose.orientation.z = orientation[2];
+		odometry.pose.pose.orientation.w = orientation[3];
+
+		odometryPub.publish(odometry);
+		ros::spinOnce();
+		usleep(50000);
+	}
 }
