@@ -56,14 +56,13 @@ void CRobot::setSpeeds(float forward,float turn)
 	//limit the speeds and transform  
 	forwardSpeed = fmax(fmin(forward,maxForwardSpeed),-maxBackwardSpeed);
 	turnSpeed = fmax(fmin(turn,maxTurnSpeed),-maxTurnSpeed);
-
 	//transform from m/s to robot's internal units
 	forwardSpeed = fwConstant*forwardSpeed;
 	turnSpeed = turnConstant*turnSpeed;
 		
 	//calculate PWM values of left and right motors
-	leftSpeed = (forwardSpeed-turnSpeed); 
-	rightSpeed = (forwardSpeed+turnSpeed);
+	leftPWM = (forwardSpeed-turnSpeed); 
+	rightPWM = (forwardSpeed+turnSpeed);
 		
 	//limit PWM values
 	leftPWM = fmax(fmin(leftPWM,PWMLimit),-PWMLimit);
